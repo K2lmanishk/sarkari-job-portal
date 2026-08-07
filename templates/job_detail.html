@@ -1,0 +1,215 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ job.title }} – {{ job.organization }} | Sarkari Job Portal{% endblock %}
+{% block meta_description %}{{ job.short_description|truncatewords:30 }}{% endblock %}
+{% block meta_keywords %}{{ job.title }}, {{ job.organization }}, {{ job.category.name }}, government jobs, sarkari result{% endblock %}
+{% block canonical_url %}{{ request.build_absolute_uri }}{% endblock %}
+
+{% block og_title %}{{ job.title }} – {{ job.organization }}{% endblock %}
+{% block og_description %}{{ job.short_description|truncatewords:30 }}{% endblock %}
+
+{% block twitter_title %}{{ job.title }} – {{ job.organization }}{% endblock %}
+{% block twitter_description %}{{ job.short_description|truncatewords:30 }}{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'jobs:job_list' %}">Jobs</a></li>
+        <li class="breadcrumb-item active">{{ job.title }}</li>
+    </ol>
+</nav>
+<!-- Breadcrumb Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "{% url 'core:home' %}"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Jobs",
+      "item": "{% url 'jobs:job_list' %}"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "{{ job.title }}"
+    }
+  ]
+}
+</script>
+
+<div class="row">
+    <div class="col-lg-8">
+        <article>
+            <h1>{{ job.title }}</h1>
+            <table class="table table-bordered">
+                <tr><td>Organization</td><td>{{ job.organization }}</td></tr>
+                <tr><td>Post Name</td><td>{{ job.title }}</td></tr>
+                <tr><td>Total Vacancies</td><td>{{ job.total_vacancies }}</td></tr>
+                <tr><td>Qualification</td><td>{{ job.qualification }}</td></tr>
+                <tr><td>Age Limit</td><td>{{ job.age_min }} - {{ job.age_max }} years{% if job.age_relaxation %}<br>(Relaxation: {{ job.age_relaxation }}){% endif %}</td></tr>
+                <tr><td>Salary</td><td>{{ job.salary }}</td></tr>
+                <tr><td>Job Location</td><td>{{ job.job_location }}</td></tr>
+                <tr><td>Application Start Date</td><td>{{ job.application_start_date|date:"d M Y" }}</td></tr>
+                <tr><td>Last Date</td><td>{{ job.application_last_date|date:"d M Y" }}</td></tr>
+                <tr><td>Exam Date</td><td>{{ job.exam_date|date:"d M Y" }}</td></tr>
+            </table>
+
+            <h3>Important Dates</h3>
+            <table class="table table-striped">
+                <tr><td>Application Start</td><td>{{ job.application_start_date|date:"d M Y" }}</td></tr>
+                <tr><td>Last Date to Apply</td><td>{{ job.application_last_date|date:"d M Y" }}</td></tr>
+                {% if job.exam_date %}<tr><td>Exam Date</td><td>{{ job.exam_date|date:"d M Y" }}</td></tr>{% endif %}
+                {% if job.admit_card_date %}<tr><td>Admit Card</td><td>{{ job.admit_card_date|date:"d M Y" }}</td></tr>{% endif %}
+            </table>
+
+            {% if job.description %}
+            <h3>Description</h3>
+            <div>{{ job.description|safe }}</div>
+            {% endif %}
+
+            <h3>Vacancy Details</h3>
+            <table class="table table-bordered">
+                <thead><tr><th>Post Name</th><th>Number of Posts</th><th>Qualification</th></tr></thead>
+                <tbody>
+                <tr><td>{{ job.title }}</td><td>{{ job.total_vacancies }}</td><td>{{ job.qualification }}</td></tr>
+                </tbody>
+            </table>
+
+            <h3>Eligibility</h3>
+            <p>{{ job.eligibility|safe }}</p>
+
+            <h3>Age Limit</h3>
+            <p>{{ job.age_min }} - {{ job.age_max }} years. {{ job.age_relaxation }}</p>
+
+            <h3>Application Fee</h3>
+            <ul>
+                <li>General / OBC: {{ job.application_fee_general }}</li>
+                <li>SC / ST: {{ job.application_fee_sc }}</li>
+                <li>Female: {{ job.application_fee_female }}</li>
+            </ul>
+
+            <h3>Selection Process</h3>
+            <p>{{ job.selection_process|safe }}</p>
+
+            <h3>How to Apply</h3>
+            <p>{{ job.how_to_apply|safe }}</p>
+
+            {% if job.important_instructions %}
+            <h3>Important Instructions</h3>
+            <p>{{ job.important_instructions|safe }}</p>
+            {% endif %}
+
+            {% if job.faqs.exists %}
+            <h3>FAQs</h3>
+            <div class="accordion" id="faqAccordion">
+                {% for faq in job.faqs.all %}
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq{{ faq.id }}">
+                            {{ faq.question }}
+                        </button>
+                    </h2>
+                    <div id="faq{{ faq.id }}" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">{{ faq.answer|safe }}</div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <!-- FAQ Structured Data -->
+            <script type="application/ld+json">
+            {
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                {% for faq in job.faqs.all %}
+                {
+                  "@type": "Question",
+                  "name": "{{ faq.question|escapejs }}",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "{{ faq.answer|striptags|escapejs }}"
+                  }
+                }{% if not forloop.last %},{% endif %}
+                {% endfor %}
+              ]
+            }
+            </script>
+            {% endif %}
+
+            <h3>Important Links</h3>
+            <div class="row">
+                {% if job.official_apply_url %}
+                <div class="col-md-4 mb-2"><a href="{{ job.official_apply_url }}" class="btn btn-success w-100" target="_blank">Apply Online</a></div>
+                {% endif %}
+                {% if job.official_notification_url %}
+                <div class="col-md-4 mb-2"><a href="{{ job.official_notification_url }}" class="btn btn-primary w-100" target="_blank">Official Notification</a></div>
+                {% endif %}
+                {% if job.official_website_url %}
+                <div class="col-md-4 mb-2"><a href="{{ job.official_website_url }}" class="btn btn-secondary w-100" target="_blank">Official Website</a></div>
+                {% endif %}
+            </div>
+
+            <!-- JobPosting Structured Data -->
+            <script type="application/ld+json">
+            {
+              "@context": "https://schema.org",
+              "@type": "JobPosting",
+              "title": "{{ job.title }}",
+              "description": "{{ job.short_description|escapejs }}",
+              "hiringOrganization": {
+                "@type": "Organization",
+                "name": "{{ job.organization }}"
+              },
+              "datePosted": "{{ job.created_at|date:'Y-m-d' }}",
+              "validThrough": "{{ job.application_last_date|date:'Y-m-d' }}",
+              "employmentType": "FULL_TIME",
+              "jobLocation": {
+                "@type": "Place",
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressLocality": "{{ job.district|default:job.job_location }}",
+                  "addressRegion": "{{ job.state.name }}",
+                  "addressCountry": "IN"
+                }
+              },
+              "baseSalary": {
+                "@type": "MonetaryAmount",
+                "currency": "INR",
+                "value": {
+                  "@type": "QuantitativeValue",
+                  "value": "{{ job.salary|default:'As per norms' }}",
+                  "unitText": "MONTH"
+                }
+              },
+              "qualifications": "{{ job.qualification }}",
+              "url": "{{ request.build_absolute_uri }}"
+            }
+            </script>
+        </article>
+    </div>
+    <div class="col-lg-4">
+        <div class="ad-placeholder">Advertisement</div>
+        {% if related_jobs %}
+        <h4>Related Government Jobs</h4>
+        {% for rj in related_jobs %}
+        <div class="card mb-2">
+            <div class="card-body">
+                <h6><a href="{% url 'jobs:job_detail' rj.slug %}">{{ rj.title }}</a></h6>
+                <small>{{ rj.organization }} | {{ rj.application_last_date|date:"d M Y" }}</small>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

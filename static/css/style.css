@@ -1,0 +1,288 @@
+/* =============================================
+   Sarkari Job Portal – Custom Styles
+   Mobile‑first, professional, clean
+   ============================================= */
+
+/* ----- Base & Typography ----- */
+body {
+    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    background: #f4f6f9;
+    color: #212529;
+    line-height: 1.6;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    color: #1a237e; /* deep blue */
+}
+a {
+    color: #0d6efd;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+/* ----- Navbar ----- */
+.navbar-brand {
+    font-size: 1.4rem;
+    letter-spacing: 0.5px;
+}
+.navbar .nav-link {
+    font-weight: 500;
+    padding: 0.5rem 0.8rem;
+}
+.navbar .nav-link.active {
+    border-bottom: 2px solid #fff;
+}
+
+/* ----- Hero / Jumbotron ----- */
+.jumbotron {
+    background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+    color: #fff;
+    border-radius: 0.5rem;
+    padding: 2.5rem 2rem;
+    margin-bottom: 2rem;
+}
+.jumbotron .btn-warning {
+    color: #212529;
+    font-weight: 600;
+}
+
+/* ----- Cards (Jobs, Results, Admit, Blog) ----- */
+.card {
+    border: none;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background: #fff;
+    height: 100%;
+}
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+.card-title a {
+    color: #1a237e;
+    font-weight: 600;
+}
+.card-title a:hover {
+    color: #0d47a1;
+    text-decoration: underline;
+}
+.card-text {
+    color: #455a64;
+    font-size: 0.95rem;
+}
+
+/* Status badges */
+.badge-upcoming { background: #6c757d; }
+.badge-apply_now { background: #28a745; }
+.badge-closing_soon { background: #fd7e14; }
+.badge-closed { background: #dc3545; }
+.badge-exam_soon { background: #17a2b8; }
+.badge-result_declared { background: #007bff; }
+
+/* ----- Tables (Job detail) ----- */
+.table-bordered th, .table-bordered td {
+    vertical-align: middle;
+}
+.table th {
+    background: #e8eaf6;
+    font-weight: 600;
+    color: #1a237e;
+}
+
+/* ----- Breadcrumb ----- */
+.breadcrumb {
+    background: transparent;
+    padding: 0;
+    font-size: 0.95rem;
+}
+.breadcrumb-item a {
+    color: #0d6efd;
+}
+
+/* ----- Pagination ----- */
+.pagination {
+    justify-content: center;
+    margin-top: 2rem;
+}
+.page-link {
+    color: #1a237e;
+    border: none;
+    margin: 0 2px;
+    border-radius: 0.25rem;
+}
+.page-item.active .page-link {
+    background: #1a237e;
+    color: #fff;
+}
+
+/* ----- Filter Sidebar (Job list) ----- */
+.filter-sidebar {
+    background: #fff;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    margin-bottom: 1.5rem;
+}
+.filter-sidebar h4 {
+    margin-bottom: 1.2rem;
+}
+
+/* ----- Ad Placeholder ----- */
+.ad-placeholder {
+    background: #e9ecef;
+    border: 1px dashed #adb5bd;
+    min-height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6c757d;
+    font-size: 0.9rem;
+    border-radius: 0.25rem;
+    margin-bottom: 1.5rem;
+}
+
+/* ----- Accordion (FAQs) ----- */
+.accordion-button:not(.collapsed) {
+    background: #e8eaf6;
+    color: #1a237e;
+}
+
+/* ----- Footer ----- */
+footer {
+    background: #fff;
+    color: #495057;
+}
+footer h5 {
+    color: #1a237e;
+    font-weight: 700;
+}
+footer a {
+    color: #0d6efd;
+}
+
+/* ----- Responsive Tweaks ----- */
+@media (max-width: 768px) {
+    .jumbotron {
+        padding: 1.5rem 1rem;
+    }
+    .jumbotron h1 {
+        font-size: 1.8rem;
+    }
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
+    .filter-sidebar {
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .job-card, .result-card, .admit-card, .blog-card {
+        margin-bottom: 1rem;
+    }
+    .btn {
+        width: 100%;
+    }
+}
+
+/* Hero Section with gradient + pattern */
+.hero-section {
+  background: linear-gradient(135deg, #1a237e 0%, #0d47a1 50%, #1565c0 100%);
+  position: relative;
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+}
+.hero-overlay {
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.search-bar {
+  max-width: 700px;
+  margin: 0 auto;
+}
+.stats-counter .stat-item {
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(5px);
+  border-radius: 1rem;
+  padding: 1.5rem 0.5rem;
+  transition: transform 0.3s;
+}
+.stats-counter .stat-item:hover {
+  transform: translateY(-5px);
+}
+/* Section header with flex */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 0.5rem;
+}
+.section-header h2 {
+  font-size: 1.8rem;
+}
+/* Hover card lift */
+.hover-card {
+  transition: all 0.3s ease;
+  border-radius: 1rem;
+}
+.hover-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.1) !important;
+}
+/* Category & State cards */
+.category-card, .state-card {
+  transition: 0.3s;
+  border-radius: 0.8rem;
+}
+.category-card:hover, .state-card:hover {
+  background: #f0f4ff;
+  transform: scale(1.05);
+}
+/* Ad placeholders */
+.ad-placeholder {
+  background: #f8f9fa;
+  border: 1px dashed #ccc;
+  min-height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+/* Back to Top */
+#backToTop {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* Mobile adjustments */
+@media (max-width: 576px) {
+  .stats-counter .stat-item h3 {
+    font-size: 1.5rem;
+  }
+  .section-header h2 {
+    font-size: 1.4rem;
+  }
+}
+.hero-simple {
+  background: #f8f9fc;
+}
+.search-form .form-control:focus {
+  box-shadow: none;
+}
+.hover-card {
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.hover-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
+}

@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ syllabus.title }} | Sarkari Job Portal{% endblock %}
+{% block meta_description %}Syllabus and exam pattern for {{ syllabus.exam_name }} by {{ syllabus.organization }}.{% endblock %}
+{% block meta_keywords %}{{ syllabus.exam_name }}, {{ syllabus.organization }}, syllabus, exam pattern{% endblock %}
+{% block canonical_url %}{{ request.build_absolute_uri }}{% endblock %}
+
+{% block og_title %}{{ syllabus.title }}{% endblock %}
+{% block og_description %}Detailed syllabus for {{ syllabus.exam_name }}.{% endblock %}
+
+{% block twitter_title %}{{ syllabus.title }}{% endblock %}
+{% block twitter_description %}Detailed syllabus for {{ syllabus.exam_name }}.{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'syllabus:syllabus_list' %}">Syllabus</a></li>
+        <li class="breadcrumb-item active">{{ syllabus.title }}</li>
+    </ol>
+</nav>
+<!-- Breadcrumb Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "{% url 'core:home' %}"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Syllabus",
+      "item": "{% url 'syllabus:syllabus_list' %}"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "{{ syllabus.title }}"
+    }
+  ]
+}
+</script>
+
+<h1>{{ syllabus.title }}</h1>
+<table class="table table-bordered">
+    <tr><td>Organization</td><td>{{ syllabus.organization }}</td></tr>
+    <tr><td>Exam Name</td><td>{{ syllabus.exam_name }}</td></tr>
+</table>
+{% if syllabus.description %}
+<h3>Description</h3>
+<p>{{ syllabus.description|safe }}</p>
+{% endif %}
+{% if syllabus.exam_pattern %}
+<h3>Exam Pattern</h3>
+<div>{{ syllabus.exam_pattern|safe }}</div>
+{% endif %}
+{% if syllabus.syllabus_content %}
+<h3>Full Syllabus</h3>
+<div>{{ syllabus.syllabus_content|safe }}</div>
+{% endif %}
+{% if syllabus.official_notification_url %}
+<a href="{{ syllabus.official_notification_url }}" class="btn btn-primary" target="_blank">Official Notification</a>
+{% endif %}
+{% endblock %}

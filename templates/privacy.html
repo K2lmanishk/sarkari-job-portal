@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Privacy Policy | Sarkari Job Portal{% endblock %}
+{% block content %}
+<h1>Privacy Policy</h1>
+<p>Last updated: August 2026</p>
+<p>Your privacy is important to us. This privacy policy explains how we collect, use, and protect your personal information.</p>
+<h3>Information We Collect</h3>
+<p>We may collect email addresses when you subscribe to our newsletter or contact us. We also use cookies to improve user experience.</p>
+<h3>How We Use Information</h3>
+<ul>
+    <li>To send job alerts and newsletters (only if subscribed)</li>
+    <li>To respond to inquiries</li>
+    <li>To improve our website content</li>
+</ul>
+<h3>Data Protection</h3>
+<p>We implement security measures to protect your data. We do not sell, trade, or share your personal information with third parties.</p>
+<h3>Third-Party Links</h3>
+<p>Our website contains links to official government websites. We are not responsible for their privacy practices.</p>
+<h3>Contact</h3>
+<p>If you have questions about this policy, <a href="{% url 'core:contact' %}">contact us</a>.</p>
+{% endblock %}

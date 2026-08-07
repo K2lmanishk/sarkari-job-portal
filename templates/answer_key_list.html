@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Answer Keys | Sarkari Job Portal{% endblock %}
+{% block content %}
+<h1>Answer Keys</h1>
+<div class="row">
+    {% for key in answer_keys %}
+    <div class="col-md-6 col-lg-4 mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title"><a href="{% url 'answer_keys:answer_key_detail' key.slug %}">{{ key.title }}</a></h5>
+                <p class="card-text">
+                    <strong>{{ key.organization }}</strong><br>
+                    {{ key.exam_name }}<br>
+                    Released: {{ key.release_date|date:"d M Y" }}
+                </p>
+                <a href="{% url 'answer_keys:answer_key_detail' key.slug %}" class="btn btn-sm btn-info">View Answer Key</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p>No answer keys available.</p>
+    {% endfor %}
+</div>
+{% include 'includes/pagination.html' with page_obj=answer_keys %}
+{% endblock %}

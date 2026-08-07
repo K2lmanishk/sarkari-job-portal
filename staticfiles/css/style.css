@@ -1,0 +1,189 @@
+/* =============================================
+   Sarkari Job Portal – Custom Styles
+   Mobile‑first, professional, clean
+   ============================================= */
+
+/* ----- Base & Typography ----- */
+body {
+    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    background: #f4f6f9;
+    color: #212529;
+    line-height: 1.6;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    color: #1a237e; /* deep blue */
+}
+a {
+    color: #0d6efd;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+/* ----- Navbar ----- */
+.navbar-brand {
+    font-size: 1.4rem;
+    letter-spacing: 0.5px;
+}
+.navbar .nav-link {
+    font-weight: 500;
+    padding: 0.5rem 0.8rem;
+}
+.navbar .nav-link.active {
+    border-bottom: 2px solid #fff;
+}
+
+/* ----- Hero / Jumbotron ----- */
+.jumbotron {
+    background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+    color: #fff;
+    border-radius: 0.5rem;
+    padding: 2.5rem 2rem;
+    margin-bottom: 2rem;
+}
+.jumbotron .btn-warning {
+    color: #212529;
+    font-weight: 600;
+}
+
+/* ----- Cards (Jobs, Results, Admit, Blog) ----- */
+.card {
+    border: none;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background: #fff;
+    height: 100%;
+}
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+.card-title a {
+    color: #1a237e;
+    font-weight: 600;
+}
+.card-title a:hover {
+    color: #0d47a1;
+    text-decoration: underline;
+}
+.card-text {
+    color: #455a64;
+    font-size: 0.95rem;
+}
+
+/* Status badges */
+.badge-upcoming { background: #6c757d; }
+.badge-apply_now { background: #28a745; }
+.badge-closing_soon { background: #fd7e14; }
+.badge-closed { background: #dc3545; }
+.badge-exam_soon { background: #17a2b8; }
+.badge-result_declared { background: #007bff; }
+
+/* ----- Tables (Job detail) ----- */
+.table-bordered th, .table-bordered td {
+    vertical-align: middle;
+}
+.table th {
+    background: #e8eaf6;
+    font-weight: 600;
+    color: #1a237e;
+}
+
+/* ----- Breadcrumb ----- */
+.breadcrumb {
+    background: transparent;
+    padding: 0;
+    font-size: 0.95rem;
+}
+.breadcrumb-item a {
+    color: #0d6efd;
+}
+
+/* ----- Pagination ----- */
+.pagination {
+    justify-content: center;
+    margin-top: 2rem;
+}
+.page-link {
+    color: #1a237e;
+    border: none;
+    margin: 0 2px;
+    border-radius: 0.25rem;
+}
+.page-item.active .page-link {
+    background: #1a237e;
+    color: #fff;
+}
+
+/* ----- Filter Sidebar (Job list) ----- */
+.filter-sidebar {
+    background: #fff;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    margin-bottom: 1.5rem;
+}
+.filter-sidebar h4 {
+    margin-bottom: 1.2rem;
+}
+
+/* ----- Ad Placeholder ----- */
+.ad-placeholder {
+    background: #e9ecef;
+    border: 1px dashed #adb5bd;
+    min-height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6c757d;
+    font-size: 0.9rem;
+    border-radius: 0.25rem;
+    margin-bottom: 1.5rem;
+}
+
+/* ----- Accordion (FAQs) ----- */
+.accordion-button:not(.collapsed) {
+    background: #e8eaf6;
+    color: #1a237e;
+}
+
+/* ----- Footer ----- */
+footer {
+    background: #fff;
+    color: #495057;
+}
+footer h5 {
+    color: #1a237e;
+    font-weight: 700;
+}
+footer a {
+    color: #0d6efd;
+}
+
+/* ----- Responsive Tweaks ----- */
+@media (max-width: 768px) {
+    .jumbotron {
+        padding: 1.5rem 1rem;
+    }
+    .jumbotron h1 {
+        font-size: 1.8rem;
+    }
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
+    .filter-sidebar {
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .job-card, .result-card, .admit-card, .blog-card {
+        margin-bottom: 1rem;
+    }
+    .btn {
+        width: 100%;
+    }
+}

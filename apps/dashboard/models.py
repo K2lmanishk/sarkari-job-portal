@@ -1,0 +1,1 @@
+# Dashboard app does not require its own models.

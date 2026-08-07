@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}{{ category.name }} Articles | Sarkari Job Portal{% endblock %}
+{% block content %}
+<h1>Articles in {{ category.name }}</h1>
+<div class="row">
+    {% for post in posts %}
+    <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card blog-card h-100">
+            {% if post.featured_image %}
+            <img src="{{ post.featured_image.url }}" class="card-img-top" alt="{{ post.title }}">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title"><a href="{% url 'blog:blog_detail' post.slug %}">{{ post.title }}</a></h5>
+                <p class="card-text">{{ post.excerpt|truncatewords:20 }}</p>
+                <p class="text-muted small">{{ post.published_at|date:"d M Y" }}</p>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p>No posts in this category.</p>
+    {% endfor %}
+</div>
+{% include 'includes/pagination.html' with page_obj=posts %}
+{% endblock %}

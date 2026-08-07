@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ post.meta_title|default:post.title }} | Sarkari Job Portal{% endblock %}
+{% block meta_description %}{{ post.meta_description|default:post.excerpt }}{% endblock %}
+{% block meta_keywords %}{{ post.keywords }}{% endblock %}
+{% block canonical_url %}{{ request.build_absolute_uri }}{% endblock %}
+
+{% block og_title %}{{ post.meta_title|default:post.title }}{% endblock %}
+{% block og_description %}{{ post.meta_description|default:post.excerpt }}{% endblock %}
+{% if post.featured_image %}
+{% block og_image %}{{ post.featured_image.url }}{% endblock %}
+{% endif %}
+
+{% block twitter_title %}{{ post.meta_title|default:post.title }}{% endblock %}
+{% block twitter_description %}{{ post.meta_description|default:post.excerpt }}{% endblock %}
+{% if post.featured_image %}
+{% block twitter_image %}{{ post.featured_image.url }}{% endblock %}
+{% endif %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'blog:blog_list' %}">Blog</a></li>
+        <li class="breadcrumb-item active">{{ post.title }}</li>
+    </ol>
+</nav>
+<!-- Breadcrumb Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "{% url 'core:home' %}"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "{% url 'blog:blog_list' %}"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "{{ post.title }}"
+    }
+  ]
+}
+</script>
+
+<div class="row">
+    <div class="col-lg-8">
+        <article>
+            <h1>{{ post.title }}</h1>
+            <p class="text-muted">By {{ post.author.username|default:"Admin" }} | {{ post.published_at|date:"d M Y" }} | Category: {{ post.category.name }}</p>
+            {% if post.featured_image %}
+            <img src="{{ post.featured_image.url }}" class="img-fluid mb-3" alt="{{ post.title }}">
+            {% endif %}
+            <div>{{ post.content|safe }}</div>
+        </article>
+
+        <!-- BlogPosting Structured Data -->
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "{{ post.title }}",
+          "description": "{{ post.meta_description|default:post.excerpt }}",
+          "image": "{% if post.featured_image %}{{ post.featured_image.url }}{% endif %}",
+          "author": {
+            "@type": "Person",
+            "name": "{{ post.author.username|default:'Admin' }}"
+          },
+          "datePublished": "{{ post.published_at|date:'Y-m-d' }}",
+          "dateModified": "{{ post.updated_at|date:'Y-m-d' }}",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Sarkari Job Portal"
+          }
+        }
+        </script>
+
+        <div class="mt-4">
+            <h5>Share this post</h5>
+            <a href="https://api.whatsapp.com/send?text={{ request.build_absolute_uri }}" target="_blank" class="btn btn-sm btn-success">WhatsApp</a>
+            <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" class="btn btn-sm btn-primary">Facebook</a>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        {% if related_posts %}
+        <h4>Related Articles</h4>
+        {% for rp in related_posts %}
+        <div class="card mb-2">
+            <div class="card-body">
+                <h6><a href="{% url 'blog:blog_detail' rp.slug %}">{{ rp.title }}</a></h6>
+                <small>{{ rp.published_at|date:"d M Y" }}</small>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+        <div class="ad-placeholder mt-3">Advertisement</div>
+    </div>
+</div>
+{% endblock %}

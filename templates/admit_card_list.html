@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Admit Cards | Sarkari Job Portal{% endblock %}
+{% block content %}
+<h2>Latest Admit Cards</h2>
+<div class="row">
+    {% for card in admit_cards %}
+    <div class="col-md-6 col-lg-4 mb-3">
+        <div class="card admit-card h-100">
+            <div class="card-body">
+                <h5 class="card-title"><a href="{% url 'admit_cards:admit_card_detail' card.slug %}">{{ card.title }}</a></h5>
+                <p class="card-text">
+                    <strong>{{ card.organization }}</strong><br>
+                    Release: {{ card.release_date|date:"d M Y" }}
+                </p>
+                <a href="{% url 'admit_cards:admit_card_detail' card.slug %}" class="btn btn-sm btn-warning">View Details</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% include 'includes/pagination.html' with page_obj=admit_cards %}
+{% endblock %}

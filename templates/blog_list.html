@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Blog | Sarkari Job Portal{% endblock %}
+{% block content %}
+<h1>Latest Articles</h1>
+<div class="row">
+    <div class="col-lg-9">
+        <div class="row">
+            {% for post in posts %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card blog-card h-100">
+                    {% if post.featured_image %}
+                    <img src="{{ post.featured_image.url }}" class="card-img-top" alt="{{ post.title }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="{% url 'blog:blog_detail' post.slug %}">{{ post.title }}</a></h5>
+                        <p class="card-text">{{ post.excerpt|truncatewords:20 }}</p>
+                        <p class="text-muted small">{{ post.published_at|date:"d M Y" }} | {{ post.category.name }}</p>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p>No articles published yet.</p>
+            {% endfor %}
+        </div>
+        {% include 'includes/pagination.html' with page_obj=posts %}
+    </div>
+    <div class="col-lg-3">
+        <h4>Categories</h4>
+        <ul class="list-unstyled">
+            {% for cat in categories %}
+            <li><a href="{% url 'blog:blog_by_category' cat.slug %}">{{ cat.name }}</a></li>
+            {% endfor %}
+        </ul>
+        <div class="ad-placeholder mt-3">Advertisement</div>
+    </div>
+</div>
+{% endblock %}

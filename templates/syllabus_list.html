@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Exam Syllabus | Sarkari Job Portal{% endblock %}
+{% block content %}
+<h1>Exam Syllabus</h1>
+<div class="row">
+    {% for item in syllabi %}
+    <div class="col-md-6 col-lg-4 mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title"><a href="{% url 'syllabus:syllabus_detail' item.slug %}">{{ item.title }}</a></h5>
+                <p class="card-text">
+                    <strong>{{ item.organization }}</strong><br>
+                    {{ item.exam_name }}
+                </p>
+                <a href="{% url 'syllabus:syllabus_detail' item.slug %}" class="btn btn-sm btn-info">View Syllabus</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p>No syllabus available at the moment.</p>
+    {% endfor %}
+</div>
+{% include 'includes/pagination.html' with page_obj=syllabi %}
+{% endblock %}

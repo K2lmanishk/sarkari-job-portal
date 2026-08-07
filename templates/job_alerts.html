@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Job Alerts | Sarkari Job Portal{% endblock %}
+{% block content %}
+<h1>My Job Alerts</h1>
+<p>Customise your alerts based on state, category and qualification. (Email sending is disabled until email configuration is set.)</p>
+<div class="row">
+    <div class="col-md-6">
+        <h4>Your Active Alerts</h4>
+        {% if alerts %}
+        <ul class="list-group mb-3">
+            {% for alert in alerts %}
+            <li class="list-group-item">
+                State: {{ alert.state.name|default:"All" }},
+                Category: {{ alert.category.name|default:"All" }},
+                Qualification: {{ alert.qualification|default:"All" }}
+                <span class="badge bg-{% if alert.is_active %}success{% else %}secondary{% endif %}">
+                    {% if alert.is_active %}Active{% else %}Inactive{% endif %}
+                </span>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No alerts created yet.</p>
+        {% endif %}
+        <p><em>Alert creation/editing will be implemented later.</em></p>
+    </div>
+</div>
+{% endblock %}

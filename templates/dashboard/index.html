@@ -1,0 +1,78 @@
+{% extends 'dashboard/base_dashboard.html' %}
+{% block title %}Dashboard | Sarkari Job Portal{% endblock %}
+
+{% block content %}
+<h1 class="h2">Dashboard</h1>
+<div class="row mt-4">
+    <div class="col-md-4 mb-3">
+        <div class="card text-white bg-primary">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-briefcase"></i> Jobs</h5>
+                <p class="card-text">
+                    Total: {{ total_jobs }}<br>
+                    Active: {{ active_jobs }}<br>
+                    Upcoming: {{ upcoming_jobs }}<br>
+                    Expired: {{ expired_jobs }}
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card text-white bg-success">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-trophy"></i> Results</h5>
+                <p class="card-text">Total: {{ total_results }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card text-white bg-warning">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-card-text"></i> Admit Cards</h5>
+                <p class="card-text">Total: {{ total_admit_cards }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h5>Answer Keys</h5>
+                <h2>{{ total_answer_keys }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h5>Blog Posts</h5>
+                <h2>{{ total_blog_posts }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h5>Contact Messages</h5>
+                <h2>{{ total_contacts }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h5>Categories / States</h5>
+                <h2>{{ total_categories }} / {{ total_states }}</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-4">
+    <a href="{% url 'admin:jobs_job_add' %}" class="btn btn-primary me-2"><i class="bi bi-plus-circle"></i> Add Job</a>
+    <a href="{% url 'admin:blog_blog_add' %}" class="btn btn-success me-2"><i class="bi bi-newspaper"></i> New Blog Post</a>
+    <a href="{% url 'admin:index' %}" class="btn btn-outline-secondary"><i class="bi bi-gear"></i> Full Admin</a>
+</div>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}My Profile | Sarkari Job Portal{% endblock %}
+{% block content %}
+<h1>My Profile</h1>
+<p>Welcome, <strong>{{ user.username }}</strong>!</p>
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5>Account Details</h5>
+                <p>Username: {{ user.username }}</p>
+                <p>Email: {{ user.email }}</p>
+                <p>Phone: {{ profile.phone|default:"Not provided" }}</p>
+                <p>Preferred State: {{ profile.preferred_state.name|default:"Not set" }}</p>
+                <p>Preferred Category: {{ profile.preferred_category.name|default:"Not set" }}</p>
+                <p>Qualification: {{ profile.qualification|default:"Not set" }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5>Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="{% url 'accounts:saved_jobs' %}">Saved Jobs</a></li>
+                    <li><a href="{% url 'accounts:job_alerts' %}">Job Alerts</a></li>
+                    <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

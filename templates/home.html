@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ settings.homepage_title }}{% endblock %}
+{% block meta_description %}{{ settings.homepage_meta_description }}{% endblock %}
+
+{% block content %}
+
+<!-- Hero with search -->
+<section class="hero-simple text-center py-5 mb-5">
+  <div class="container">
+    <h1 class="display-5 fw-bold">Latest Government Jobs 2026</h1>
+    <p class="lead text-muted mb-4">Find Sarkari Jobs, Results, Admit Cards & Exam Updates</p>
+    <form action="{% url 'jobs:job_list' %}" method="GET" class="search-form mx-auto" style="max-width: 650px;">
+      <div class="input-group shadow-sm rounded-pill overflow-hidden">
+        <span class="input-group-text bg-white border-0 ps-3"><i class="bi bi-search text-secondary"></i></span>
+        <input type="search" name="q" class="form-control border-0 ps-2" placeholder="Search for jobs, exams, posts...">
+        <button class="btn btn-primary rounded-pill px-4 fw-semibold" type="submit">Search</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- Ad Banner -->
+<div class="container mb-4">
+  <div class="ad-placeholder">Advertisement</div>
+</div>
+
+<!-- Latest Jobs -->
+<section class="container mb-5">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="h4 fw-bold mb-0">📋 Latest Government Jobs</h2>
+    <a href="{% url 'jobs:job_list' %}" class="btn btn-outline-primary btn-sm rounded-pill">View All →</a>
+  </div>
+  <div class="row g-3">
+    {% for job in latest_jobs %}
+    <div class="col-md-6 col-lg-4">
+      <div class="card border-0 shadow-sm h-100 hover-card">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start">
+            <h5 class="card-title h6 fw-bold">
+              <a href="{% url 'jobs:job_detail' job.slug %}" class="text-decoration-none text-dark">{{ job.title }}</a>
+            </h5>
+            <span class="badge rounded-pill {% if job.status == 'apply_now' %}bg-success{% elif job.status == 'closing_soon' %}bg-warning text-dark{% elif job.status == 'closed' %}bg-danger{% else %}bg-secondary{% endif %} ms-2">
+              {{ job.get_status_display }}
+            </span>
+          </div>
+          <p class="card-text mb-1 small text-muted">{{ job.organization }}</p>
+          <div class="d-flex flex-wrap gap-2 small text-muted mt-2">
+            <span><i class="bi bi-people me-1"></i>{{ job.total_vacancies }} Posts</span>
+            <span><i class="bi bi-calendar-check me-1"></i>{{ job.application_last_date|date:"d M Y" }}</span>
+          </div>
+        </div>
+        <div class="card-footer bg-white border-0 pt-0">
+          <a href="{% url 'jobs:job_detail' job.slug %}" class="btn btn-sm btn-outline-primary rounded-pill w-100">View Details</a>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center py-5">
+      <i class="bi bi-briefcase display-4 text-muted"></i>
+      <p class="mt-3">No jobs available right now.</p>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- Quick access cards: Results, Admit Cards, Answer Keys (side by side) -->
+<section class="container mb-5">
+  <div class="row g-3">
+    <div class="col-md-4">
+      <a href="{% url 'results:result_list' %}" class="text-decoration-none">
+        <div class="card border-0 shadow-sm hover-card text-center p-4">
+          <i class="bi bi-trophy display-5 text-success"></i>
+          <h3 class="h5 mt-2 mb-0">Results</h3>
+          <small class="text-muted">Check exam results</small>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-4">
+      <a href="{% url 'admit_cards:admit_card_list' %}" class="text-decoration-none">
+        <div class="card border-0 shadow-sm hover-card text-center p-4">
+          <i class="bi bi-card-text display-5 text-warning"></i>
+          <h3 class="h5 mt-2 mb-0">Admit Cards</h3>
+          <small class="text-muted">Download hall tickets</small>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-4">
+      <a href="{% url 'answer_keys:answer_key_list' %}" class="text-decoration-none">
+        <div class="card border-0 shadow-sm hover-card text-center p-4">
+          <i class="bi bi-key display-5 text-info"></i>
+          <h3 class="h5 mt-2 mb-0">Answer Keys</h3>
+          <small class="text-muted">Exam solutions</small>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Latest Results & Admit Cards (compact list) -->
+<section class="container mb-5">
+  <div class="row g-4">
+    <div class="col-lg-6">
+      <h2 class="h4 fw-bold mb-3">📢 Latest Results</h2>
+      {% for result in latest_results %}
+      <div class="card border-0 shadow-sm mb-2 hover-card">
+        <div class="card-body d-flex justify-content-between align-items-center py-2">
+          <div>
+            <h6 class="mb-0 fw-semibold">{{ result.title }}</h6>
+            <small class="text-muted">{{ result.organization }} · {{ result.result_date|date:"d M Y" }}</small>
+          </div>
+          <a href="{% url 'results:result_detail' result.slug %}" class="btn btn-sm btn-outline-success rounded-pill">View</a>
+        </div>
+      </div>
+      {% empty %}
+      <p class="text-muted">No results yet.</p>
+      {% endfor %}
+      <a href="{% url 'results:result_list' %}" class="btn btn-link">All Results →</a>
+    </div>
+    <div class="col-lg-6">
+      <h2 class="h4 fw-bold mb-3">🎫 Admit Cards</h2>
+      {% for admit in latest_admit_cards %}
+      <div class="card border-0 shadow-sm mb-2 hover-card">
+        <div class="card-body d-flex justify-content-between align-items-center py-2">
+          <div>
+            <h6 class="mb-0 fw-semibold">{{ admit.title }}</h6>
+            <small class="text-muted">{{ admit.organization }} · {{ admit.release_date|date:"d M Y" }}</small>
+          </div>
+          <a href="{{ admit.download_url }}" class="btn btn-sm btn-outline-warning rounded-pill" target="_blank">Download</a>
+        </div>
+      </div>
+      {% empty %}
+      <p class="text-muted">No admit cards yet.</p>
+      {% endfor %}
+      <a href="{% url 'admit_cards:admit_card_list' %}" class="btn btn-link">All Admit Cards →</a>
+    </div>
+  </div>
+</section>
+
+<!-- Popular Categories (horizontal scroll on mobile, grid on desktop) -->
+<section class="container mb-5">
+  <h2 class="h4 fw-bold mb-3">📂 Explore by Category</h2>
+  <div class="d-flex flex-wrap gap-2">
+    {% for cat in categories %}
+    <a href="{% url 'jobs:job_by_category' cat.slug %}" class="btn btn-outline-secondary rounded-pill px-3 py-1 small fw-semibold">{{ cat.name }}</a>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- Jobs by Qualification -->
+<section class="container mb-5">
+  <h2 class="h4 fw-bold mb-3">🎓 Jobs by Qualification</h2>
+  <div class="d-flex flex-wrap gap-2">
+    {% for qual in qualifications %}
+    <a href="{% url 'jobs:job_by_qualification' qual %}" class="btn btn-outline-success rounded-pill px-3 py-1 small fw-semibold">{{ qual }}</a>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- Jobs by State (compact) -->
+<section class="container mb-5">
+  <h2 class="h4 fw-bold mb-3">📍 Jobs by State</h2>
+  <div class="d-flex flex-wrap gap-1">
+    {% for state in states %}
+    <a href="{% url 'jobs:job_by_state' state.slug %}" class="btn btn-light border rounded-pill px-2 py-1 small">{{ state.name }}</a>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- Blog section (simple cards) -->
+{% if blog_posts %}
+<section class="container mb-5">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="h4 fw-bold mb-0">📰 Latest Articles</h2>
+    <a href="{% url 'blog:blog_list' %}" class="btn btn-outline-dark btn-sm rounded-pill">View All →</a>
+  </div>
+  <div class="row g-3">
+    {% for post in blog_posts %}
+    <div class="col-md-3">
+      <div class="card border-0 shadow-sm h-100 hover-card">
+        {% if post.featured_image %}
+        <img src="{{ post.featured_image.url }}" class="card-img-top" alt="{{ post.title }}">
+        {% endif %}
+        <div class="card-body">
+          <h6 class="card-title fw-semibold"><a href="{% url 'blog:blog_detail' post.slug %}" class="text-decoration-none text-dark">{{ post.title }}</a></h6>
+          <p class="card-text small text-muted">{{ post.excerpt|truncatewords:15 }}</p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% endblock %}

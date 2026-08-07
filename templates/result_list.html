@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Exam Results | Sarkari Job Portal{% endblock %}
+{% block content %}
+<h2>Latest Results</h2>
+<div class="row">
+    {% for result in results %}
+    <div class="col-md-6 col-lg-4 mb-3">
+        <div class="card result-card h-100">
+            <div class="card-body">
+                <h5 class="card-title"><a href="{% url 'results:result_detail' result.slug %}">{{ result.title }}</a></h5>
+                <p class="card-text">
+                    <strong>{{ result.organization }}</strong><br>
+                    Result Date: {{ result.result_date|date:"d M Y" }}
+                </p>
+                <a href="{% url 'results:result_detail' result.slug %}" class="btn btn-sm btn-success">View Result</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% include 'includes/pagination.html' with page_obj=results %}
+{% endblock %}

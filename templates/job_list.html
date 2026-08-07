@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block title %}Government Jobs | Sarkari Job Portal{% endblock %}
+{% if request.GET.q %}
+    <p class="lead">Search results for: <strong>"{{ request.GET.q }}"</strong></p>
+{% endif %}
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <h4>Filters</h4>
+        <form method="GET" action="{% url 'jobs:job_list' %}">
+            <div class="mb-3">
+                <label class="form-label">State</label>
+                <select name="state" class="form-select">
+                    <option value="">All</option>
+                    {% for state in states %}
+                    <option value="{{ state.slug }}" {% if request.GET.state == state.slug %}selected{% endif %}>{{ state.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Category</label>
+                <select name="category" class="form-select">
+                    <option value="">All</option>
+                    {% for category in categories %}
+                    <option value="{{ category.slug }}" {% if request.GET.category == category.slug %}selected{% endif %}>{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Qualification</label>
+                <input type="text" name="qualification" class="form-control" value="{{ request.GET.qualification }}">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Job Type</label>
+                <select name="job_type" class="form-select">
+                    <option value="">All</option>
+                    <option value="upcoming" {% if request.GET.job_type == 'upcoming' %}selected{% endif %}>Upcoming</option>
+                    <option value="closing_soon" {% if request.GET.job_type == 'closing_soon' %}selected{% endif %}>Closing Soon</option>
+                    <option value="closed" {% if request.GET.job_type == 'closed' %}selected{% endif %}>Closed</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Organization</label>
+                <input type="text" name="organization" class="form-control" value="{{ request.GET.organization }}">
+            </div>
+            <div class="mb-3">
+            <label class="form-label">Sort By</label>
+            <select name="sort" class="form-select">
+                <option value="-created_at" {% if request.GET.sort == '-created_at' or not request.GET.sort %}selected{% endif %}>Newest First</option>
+                <option value="-application_last_date" {% if request.GET.sort == '-application_last_date' %}selected{% endif %}>Last Date (Soonest)</option>
+                <option value="title" {% if request.GET.sort == 'title' %}selected{% endif %}>Title A‑Z</option>
+                <option value="-title" {% if request.GET.sort == '-title' %}selected{% endif %}>Title Z‑A</option>
+                <option value="-total_vacancies" {% if request.GET.sort == '-total_vacancies' %}selected{% endif %}>Most Vacancies</option>
+            </select>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
+            <a href="{% url 'jobs:job_list' %}" class="btn btn-outline-secondary w-100 mt-2">Reset</a>
+        </form>
+    </div>
+    <div class="col-md-9">
+        <h2>Government Jobs</h2>
+        <div class="row">
+            {% for job in jobs %}
+            <div class="col-lg-6 mb-3">
+                <div class="card job-card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="{% url 'jobs:job_detail' job.slug %}">{{ job.title }}</a></h5>
+                        <p class="card-text">
+                            <strong>{{ job.organization }}</strong><br>
+                            Vacancies: {{ job.total_vacancies }}<br>
+                            Qualification: {{ job.qualification }}<br>
+                            Last Date: {{ job.application_last_date|date:"d M Y" }}<br>
+                            State: {{ job.state.name|default:"All India" }}<br>
+                            <span class="badge bg-{% if job.status == 'apply_now' %}success{% elif job.status == 'closing_soon' %}warning{% elif job.status == 'closed' %}danger{% else %}secondary{% endif %}">
+                                {{ job.get_status_display }}
+                            </span>
+                        </p>
+                        <a href="{% url 'jobs:job_detail' job.slug %}" class="btn btn-sm btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p>No jobs found matching your criteria.</p>
+            {% endfor %}
+        </div>
+        <!-- Pagination -->
+        {% include 'includes/pagination.html' with page_obj=jobs %}
+    </div>
+</div>
+{% endblock %}
