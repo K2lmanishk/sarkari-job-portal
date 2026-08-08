@@ -1,4 +1,4 @@
-{% load static %}<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -14,15 +14,14 @@
     <meta property="og:url" content="{{ request.build_absolute_uri }}">
     <meta property="og:title" content="{% block og_title %}{{ site_settings.homepage_title }}{% endblock %}">
     <meta property="og:description" content="{% block og_description %}{{ site_settings.homepage_meta_description }}{% endblock %}">
-    <meta property="og:image" content="{% block og_image %}{% static 'images/og-default.jpg' %}{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}{% endblock %}">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="{{ request.build_absolute_uri }}">
     <meta name="twitter:title" content="{% block twitter_title %}{{ site_settings.homepage_title }}{% endblock %}">
     <meta name="twitter:description" content="{% block twitter_description %}{{ site_settings.homepage_meta_description }}{% endblock %}">
-    <meta name="twitter:image" content="{% block twitter_image %}{% static 'images/og-default.jpg' %}{% endblock %}">
-
+    <meta name="twitter:image" content="{% block twitter_image %}{% endblock %}">
     <title>{% block title %}{{ site_settings.homepage_title }}{% endblock %}</title>
 
     <!-- Bootstrap 5 CSS -->
