@@ -1,4 +1,6 @@
 from django.db import models
+from django.db import OperationalError
+
 
 class Contact(models.Model):
     name = models.CharField(max_length=100)
@@ -34,19 +36,13 @@ class SiteSettings(models.Model):
 
     @classmethod
     def load(cls):
-    """Return the singleton SiteSettings, or a dummy default if table doesn't exist."""
-    from django.db import OperationalError
-    try:
-        obj, created = cls.objects.get_or_create(pk=1)
-        return obj
-    except OperationalError:
-        # Table hasn't been created yet – return a dummy object with defaults
-        return cls(
-            pk=1,
-            homepage_title="Latest Government Jobs 2026 | Sarkari Job Portal",
-            homepage_meta_description="Get latest government jobs, Sarkari Naukri, results, admit cards, answer keys, syllabus and exam updates.",
-            about_us="",
-            contact_email="",
-            telegram_link="",
-            whatsapp_link="",
-        )
+        try:
+            obj, created = cls.objects.get_or_create(pk=1)
+            return obj
+        except OperationalError:
+            # Table hasn't been created yet – return an in-memory dummy
+            return cls(
+                pk=1,
+                homepage_title="Latest Government Jobs 2026 | Sarkari Job Portal",
+                homepage_meta_description="Get latest government jobs, Sarkari Naukri, results, admit cards, answer keys, syllabus and exam updates.",
+            )
