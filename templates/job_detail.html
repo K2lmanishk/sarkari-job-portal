@@ -20,7 +20,7 @@
         <li class="breadcrumb-item active">{{ job.title }}</li>
     </ol>
 </nav>
-<!-- Breadcrumb Structured Data -->
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -48,6 +48,7 @@
 </script>
 
 <div class="row">
+    <!-- LEFT: Job Details (unchanged) -->
     <div class="col-lg-8">
         <article>
             <h1>{{ job.title }}</h1>
@@ -125,7 +126,6 @@
                 </div>
                 {% endfor %}
             </div>
-            <!-- FAQ Structured Data -->
             <script type="application/ld+json">
             {
               "@context": "https://schema.org",
@@ -159,7 +159,6 @@
                 {% endif %}
             </div>
 
-            <!-- JobPosting Structured Data -->
             <script type="application/ld+json">
             {
               "@context": "https://schema.org",
@@ -197,19 +196,28 @@
             </script>
         </article>
     </div>
+
+    <!-- RIGHT SIDEBAR (Fixed – no footer overlap) -->
     <div class="col-lg-4">
-        <div class="ad-placeholder">Advertisement</div>
-        {% if related_jobs %}
-        <h4>Related Government Jobs</h4>
-        {% for rj in related_jobs %}
-        <div class="card mb-2">
-            <div class="card-body">
-                <h6><a href="{% url 'jobs:job_detail' rj.slug %}">{{ rj.title }}</a></h6>
-                <small>{{ rj.organization }} | {{ rj.application_last_date|date:"d M Y" }}</small>
+        <div class="sidebar-sticky" style="position:sticky; top:1rem; max-height:calc(100vh - 5rem); display:flex; flex-direction:column;">
+            <div class="ad-placeholder mb-3">Advertisement</div>
+            
+            {% if related_jobs %}
+            <div class="related-jobs-container" style="flex:1; min-height:0; display:flex; flex-direction:column; overflow:hidden;">
+                <h4 class="mb-2">Related Government Jobs</h4>
+                <div class="related-jobs-scroll" style="overflow-y:auto; flex:1; min-height:0;">
+                    {% for rj in related_jobs %}
+                    <div class="card mb-2">
+                        <div class="card-body py-2">
+                            <h6 class="mb-1"><a href="{% url 'jobs:job_detail' rj.slug %}" class="text-decoration-none">{{ rj.title }}</a></h6>
+                            <small class="text-muted">{{ rj.organization }} | {{ rj.application_last_date|date:"d M Y" }}</small>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
+            {% endif %}
         </div>
-        {% endfor %}
-        {% endif %}
     </div>
 </div>
 {% endblock %}

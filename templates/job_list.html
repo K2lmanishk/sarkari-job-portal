@@ -1,13 +1,16 @@
 {% extends 'base.html' %}
 {% block title %}Government Jobs | Sarkari Job Portal{% endblock %}
+
+{% block content %}
 {% if request.GET.q %}
     <p class="lead">Search results for: <strong>"{{ request.GET.q }}"</strong></p>
 {% endif %}
-{% block content %}
+
 <div class="row">
     <div class="col-md-3">
         <h4>Filters</h4>
         <form method="GET" action="{% url 'jobs:job_list' %}">
+            <!-- State -->
             <div class="mb-3">
                 <label class="form-label">State</label>
                 <select name="state" class="form-select">
@@ -17,6 +20,8 @@
                     {% endfor %}
                 </select>
             </div>
+
+            <!-- Category -->
             <div class="mb-3">
                 <label class="form-label">Category</label>
                 <select name="category" class="form-select">
@@ -26,10 +31,30 @@
                     {% endfor %}
                 </select>
             </div>
+
+            <!-- Qualification dropdown (now dynamic) -->
             <div class="mb-3">
                 <label class="form-label">Qualification</label>
-                <input type="text" name="qualification" class="form-control" value="{{ request.GET.qualification }}">
+                <select name="qualification" class="form-select">
+                    <option value="">All Qualifications</option>
+                    {% for qual in qualifications %}
+                    <option value="{{ qual }}" {% if request.GET.qualification == qual %}selected{% endif %}>{{ qual }}</option>
+                    {% endfor %}
+                </select>
             </div>
+
+            <!-- Organization dropdown (now dynamic) -->
+            <div class="mb-3">
+                <label class="form-label">Organization</label>
+                <select name="organization" class="form-select">
+                    <option value="">All Organizations</option>
+                    {% for org in organizations %}
+                    <option value="{{ org }}" {% if request.GET.organization == org %}selected{% endif %}>{{ org }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Job Type -->
             <div class="mb-3">
                 <label class="form-label">Job Type</label>
                 <select name="job_type" class="form-select">
@@ -39,24 +64,24 @@
                     <option value="closed" {% if request.GET.job_type == 'closed' %}selected{% endif %}>Closed</option>
                 </select>
             </div>
+
+            <!-- Sort By -->
             <div class="mb-3">
-                <label class="form-label">Organization</label>
-                <input type="text" name="organization" class="form-control" value="{{ request.GET.organization }}">
+                <label class="form-label">Sort By</label>
+                <select name="sort" class="form-select">
+                    <option value="-created_at" {% if request.GET.sort == '-created_at' or not request.GET.sort %}selected{% endif %}>Newest First</option>
+                    <option value="-application_last_date" {% if request.GET.sort == '-application_last_date' %}selected{% endif %}>Last Date (Soonest)</option>
+                    <option value="title" {% if request.GET.sort == 'title' %}selected{% endif %}>Title A‑Z</option>
+                    <option value="-title" {% if request.GET.sort == '-title' %}selected{% endif %}>Title Z‑A</option>
+                    <option value="-total_vacancies" {% if request.GET.sort == '-total_vacancies' %}selected{% endif %}>Most Vacancies</option>
+                </select>
             </div>
-            <div class="mb-3">
-            <label class="form-label">Sort By</label>
-            <select name="sort" class="form-select">
-                <option value="-created_at" {% if request.GET.sort == '-created_at' or not request.GET.sort %}selected{% endif %}>Newest First</option>
-                <option value="-application_last_date" {% if request.GET.sort == '-application_last_date' %}selected{% endif %}>Last Date (Soonest)</option>
-                <option value="title" {% if request.GET.sort == 'title' %}selected{% endif %}>Title A‑Z</option>
-                <option value="-title" {% if request.GET.sort == '-title' %}selected{% endif %}>Title Z‑A</option>
-                <option value="-total_vacancies" {% if request.GET.sort == '-total_vacancies' %}selected{% endif %}>Most Vacancies</option>
-            </select>
-            </div>
+
             <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
             <a href="{% url 'jobs:job_list' %}" class="btn btn-outline-secondary w-100 mt-2">Reset</a>
         </form>
     </div>
+
     <div class="col-md-9">
         <h2>Government Jobs</h2>
         <div class="row">
