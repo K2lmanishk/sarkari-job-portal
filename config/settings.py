@@ -21,6 +21,16 @@ DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 
+# Render sets this automatically for every deploy - no need to hardcode
+# the subdomain and update it every time the service is renamed.
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+
+# Required for CSRF to work behind Render's HTTPS proxy - without this,
+# admin login and any POST form will fail with "CSRF verification failed".
+CSRF_TRUSTED_ORIGINS = [f"https://{host}" for host in ALLOWED_HOSTS if host not in ('localhost', '127.0.0.1')]
+
 if not DEBUG:
     # HTTPS settings
     SECURE_SSL_REDIRECT = True
